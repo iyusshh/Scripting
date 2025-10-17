@@ -1,0 +1,42 @@
+#enter credentials in line 10 and 11 
+#save with .py
+#double click and enjoy
+
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+url = "https://iach.srmist.edu.in/Connect/PortalMain"
+username_str = ""
+password_str = ""
+
+chrome_options = Options()
+chrome_options.add_argument("--start-maximized")
+
+driver = webdriver.Chrome(options=chrome_options)
+
+try:
+    driver.get(url)
+
+    wait = WebDriverWait(driver, 10)
+
+    # Enter username
+    username_input = wait.until(EC.presence_of_element_located((By.ID, "LoginUserPassword_auth_username")))
+    username_input.send_keys(username_str)
+
+    # Enter password
+    password_input = wait.until(EC.presence_of_element_located((By.ID, "LoginUserPassword_auth_password")))
+    password_input.send_keys(password_str)
+
+    # Click login button (real button, not span)
+    login_button = wait.until(EC.element_to_be_clickable((By.ID, "UserCheck_Login_Button")))
+    login_button.click()
+
+    # Optional: Wait just a short moment to ensure login action triggers
+    WebDriverWait(driver, 2).until(lambda d: d.current_url != url)
+
+finally:
+    # Close immediately
+    driver.quit()
