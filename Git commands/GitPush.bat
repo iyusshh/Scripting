@@ -1,4 +1,5 @@
 @echo off
+cd ..
 title Git Commit & Push
 cd /d "%~dp0"
 
